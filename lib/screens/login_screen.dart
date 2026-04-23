@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../services/auth_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,11 +13,16 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final _emailController = TextEditingController();
   final _senhaController = TextEditingController();
+  Future<void> _salvarSessao(String token) async {
+  final prefs = await SharedPreferences.getInstance();
+  await prefs.setString('meu_token_seguro', token);
+}
 
   final _authService = AuthService();
   bool _carregando = false;
 
   void _executarLogin() async {
+    
     setState(() => _carregando = true);
 
     String? token = await _authService.login(
@@ -26,14 +33,15 @@ class _LoginScreenState extends State<LoginScreen> {
     setState(() => _carregando = false);
 
     if (token != null) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(const SnackBar(content: Text('Bem-vindo!')));
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('E-mail ou senha inválidos')),
-      );
-    }
+  await _salvarSessao(token);
+
+  Navigator.pushReplacement(
+    context,
+    MaterialPageRoute(
+      builder: (context) => const HomeScreen(),
+    ),
+  );
+}
   }
 
   @override
