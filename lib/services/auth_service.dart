@@ -7,7 +7,7 @@ class AuthService {
     await Future.delayed(const Duration(seconds: 2));
 
     // 2. Confere se os dados estão certos
-    if (email == "aluno@etec.sp.gov.br" && senha == "123456") {
+    if (email == "aluno@aluno" && senha == "123") {
       return "sucesso_token_123"; // Retorna o 'crachá' (Token)
     }
 
