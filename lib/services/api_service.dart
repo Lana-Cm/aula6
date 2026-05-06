@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import '../model/usuario.dart';
 
 class ApiService {
-  static const String _baseUrl = 'https://jsonplaceholder.typicode.com';
+  static const String _baseUrl = 'https://jsonplaceholder.typicode.com/erro';
 
   Future<List<Usuario>> buscarUsuarios() async {
     final response = await http.get(Uri.parse('$_baseUrl/users'));
